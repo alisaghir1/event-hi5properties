@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import logo from "../assets/logo.svg";
+import Link from "next/link";
 
 const Navbar: React.FC = () => {
   return (
@@ -8,9 +9,9 @@ const Navbar: React.FC = () => {
       <div className="mx-auto max-w-7xl px-6 sm:px-6 lg:px-8 ">
         <div className="relative flex h-16 justify-between">
           <div className="flex flex-1 items-stretch justify-start">
-            <a className="flex flex-shrink-0 items-center" href="#">
+            <Link className="flex flex-shrink-0 items-center" href="/">
               <Image alt="image" className="block h-16 w-auto" src={logo} />
-            </a>
+            </Link>
           </div>
           <div className="flex-shrink-0 flex px-2 py-3 items-center space-x-8">
             <a
