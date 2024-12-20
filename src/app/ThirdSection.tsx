@@ -73,7 +73,7 @@ const ThirdSection: React.FC = () => {
               alt={`${selectedStyle} pic ${index + 1}`}
               className="hover:opacity-75 w-full h-96 transition-opacity duration-300"
               src={imageSrc}
-              onLoadingComplete={handleImageLoad} // Trigger when each image is loaded
+              onLoad={handleImageLoad} // Trigger when each image is loaded
               placeholder="blur" // For smooth loading effect
             />
           </div>
