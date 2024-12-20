@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { createReservation, getReservations } from "../actions/reservationActions";
 import emailjs from "@emailjs/browser";
 
 interface FormData {
@@ -9,8 +10,28 @@ interface FormData {
   phone?: string;
   date?: string;
   time?: string;
-  interest?: string; // Add interest field
+  interest?: string;
 }
+
+const availableDates = ["27/12/2024", "28/12/2024", "29/12/2024"];
+const startTime = "09:30";
+const endTime = "23:00";
+
+const generateTimeSlots = (start: string, end: string): string[] => {
+  const times: string[] = [];
+  let current = new Date(`1970-01-01T${start}:00`);
+  const endTime = new Date(`1970-01-01T${end}:00`);
+  const interval = 30; // 30 minutes
+
+  while (current <= endTime) {
+    times.push(current.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: true }));
+    current = new Date(current.getTime() + interval * 60000); // Add 30 minutes
+  }
+  return times;
+};
+
+const timeSlots = generateTimeSlots(startTime, endTime);
+
 const Form: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
@@ -29,27 +50,40 @@ const Form: React.FC = () => {
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  const prepareEmailData = (): Record<string, unknown> => ({
-    firstName: formData.firstName,
-    lastName: formData.lastName,
-    email: formData.email,
-    phone: formData.phone,
-    interest: formData.interest,
-    date: formData.date,
-    time: formData.time,
-  });
+  useEffect(() => {
+    const fetchBookedSlots = async () => {
+      try {
+        const reservations = await getReservations();
+        setBookedSlots(reservations.map((res) => ({ date: res.date, time: res.time })));
+      } catch (error) {
+        console.error("Failed to fetch reservations:", error);
+      }
+    };
 
-  const sendEmail = async (e: React.FormEvent) => {
+    fetchBookedSlots();
+  }, []);
+
+  const isSlotBooked = (date: string, time: string): boolean => {
+    return bookedSlots.some((slot) => slot.date === date && slot.time === time);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
+      // Send email using EmailJS
       await emailjs.send(
-        "service_9dw8n2b",
-        "template_n4traqr",
-        prepareEmailData(),
-        "bz-racFIdw40qpvrn"
+        "service_vdlqcvl", // Replace with your service ID
+        "template_cqcmlxb", // Replace with your template ID
+        formData as Record<string, unknown>, // Send form data as the email body
+        "bz-racFIdw40qpvrn" // Replace with your public key
       );
+
+      await createReservation({
+        date: formData.date!,
+        time: formData.time!,
+      });
 
       setBookedSlots([...bookedSlots, { date: formData.date!, time: formData.time! }]);
       setFormData({
@@ -59,14 +93,14 @@ const Form: React.FC = () => {
         phone: "",
         date: "",
         time: "",
-        interest: "", 
+        interest: "",
       });
-      setAlertMessage("Your meeting has been scheduled! You will receive a confirmation shortly.");
+      setAlertMessage("Your meeting has been scheduled successfully!");
       setShowAlert(true);
     } catch (error) {
       setAlertMessage("Failed to schedule your meeting. Please try again.");
       setShowAlert(true);
-      console.error("FAILED...", error);
+      console.error("Error scheduling meeting:", error);
     } finally {
       setLoading(false);
     }
@@ -80,7 +114,7 @@ const Form: React.FC = () => {
         </h2>
       </div>
 
-      <form ref={formRef} onSubmit={sendEmail} className="max-w-4xl mx-auto pb-20 font-mono">
+      <form ref={formRef} onSubmit={handleSubmit} className="max-w-4xl mx-auto pb-20 font-mono">
         <div className="grid sm:grid-cols-2 gap-6">
           {/* First Name Field */}
           <div className="relative flex items-center">
@@ -146,6 +180,43 @@ const Form: React.FC = () => {
             </select>
           </div>
 
+          {/* Date Field */}
+          <div className="relative flex items-center sm:col-span-2">
+            <select
+              required
+              value={formData.date}
+              onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+              className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customBg focus:border-customBg outline-none"
+            >
+              <option value="">Select Date</option>
+              {availableDates.map((date) => (
+                <option key={date} value={date}>
+                  {date}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Time Field */}
+          <div className="relative flex items-center sm:col-span-2">
+  <select
+    required
+    value={formData.time}
+    onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+    className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customBg focus:border-customBg outline-none"
+  >
+    <option value="">Select Time</option>
+    {timeSlots.map((time) => (
+      <option
+        key={time}
+        value={time}
+        disabled={isSlotBooked(formData.date!, time)} // Disable time if already booked
+      >
+        {time}
+      </option>
+    ))}
+  </select>
+</div>
         </div>
         <button
           type="submit"
@@ -167,7 +238,6 @@ const Form: React.FC = () => {
           </div>
         </div>
       )}
-
       {/* CSS for alert box */}
       <style jsx>{`
         .spinner {
