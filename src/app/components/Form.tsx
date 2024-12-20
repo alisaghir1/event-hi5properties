@@ -1,7 +1,9 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import { useAppContext } from "../context";
 import { createReservation, getReservations } from "../actions/reservationActions";
 import emailjs from "@emailjs/browser";
+import { formTrans, Language } from "../translations/formTrans";
 
 interface FormData {
   firstName?: string;
@@ -33,6 +35,9 @@ const generateTimeSlots = (start: string, end: string): string[] => {
 const timeSlots = generateTimeSlots(startTime, endTime);
 
 const Form: React.FC = () => {
+  const [language] = useAppContext(); // Get the current language from context
+  const translation = formTrans[language as Language];
+
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
@@ -45,7 +50,7 @@ const Form: React.FC = () => {
 
   const [bookedSlots, setBookedSlots] = useState<{ date: string; time: string }[]>([]);
   const [loading, setLoading] = useState(false);
-  const [alertMessage, setAlertMessage] = useState<string>("");
+  const [alertMessage, setAlertMessage] = useState<string>(translation.successMessage);
   const [showAlert, setShowAlert] = useState<boolean>(false);
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -95,10 +100,10 @@ const Form: React.FC = () => {
         time: "",
         interest: "",
       });
-      setAlertMessage("Your meeting has been scheduled successfully!");
+      setAlertMessage(translation.successMessage);
       setShowAlert(true);
     } catch (error) {
-      setAlertMessage("Failed to schedule your meeting. Please try again.");
+      setAlertMessage(translation.errorMessage);
       setShowAlert(true);
       console.error("Error scheduling meeting:", error);
     } finally {
@@ -110,7 +115,7 @@ const Form: React.FC = () => {
     <div id="Form" className="bg-customText2">
       <div className="flex justify-center items-center gap-12 w-100 pb-20 pt-20">
         <h2 className="text-2xl font-bold text-center text-customBg lg:text-3xl">
-          Schedule A Meeting
+          {translation.title}
         </h2>
       </div>
 
@@ -121,7 +126,7 @@ const Form: React.FC = () => {
             <input
               required
               type="text"
-              placeholder="FIRST NAME"
+              placeholder={translation.firstName}
               value={formData.firstName}
               onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
               className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customBg focus:border-customBg outline-none"
@@ -133,7 +138,7 @@ const Form: React.FC = () => {
             <input
               required
               type="text"
-              placeholder="LAST NAME"
+              placeholder={translation.lastName}
               value={formData.lastName}
               onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
               className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customBg focus:border-customBg outline-none"
@@ -145,7 +150,7 @@ const Form: React.FC = () => {
             <input
               required
               type="email"
-              placeholder="EMAIL"
+              placeholder={translation.email}
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customBg focus:border-customBg outline-none"
@@ -157,7 +162,7 @@ const Form: React.FC = () => {
             <input
               required
               type="phone"
-              placeholder="Phone Number"
+              placeholder={translation.phone}
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customBg focus:border-customBg outline-none"
@@ -172,7 +177,7 @@ const Form: React.FC = () => {
               onChange={(e) => setFormData({ ...formData, interest: e.target.value })}
               className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customBg focus:border-customBg outline-none"
             >
-              <option value="">Your Interest</option>
+              <option value="">{translation.interestPlaceholder}</option>
               <option value="Apartment">Apartment</option>
               <option value="Town-House">Town House</option>
               <option value="Villa">Villa</option>
@@ -188,7 +193,7 @@ const Form: React.FC = () => {
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
               className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customBg focus:border-customBg outline-none"
             >
-              <option value="">Select Date</option>
+              <option value="">{translation.datePlaceholder}</option>
               {availableDates.map((date) => (
                 <option key={date} value={date}>
                   {date}
@@ -199,31 +204,31 @@ const Form: React.FC = () => {
 
           {/* Time Field */}
           <div className="relative flex items-center sm:col-span-2">
-  <select
-    required
-    value={formData.time}
-    onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-    className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customBg focus:border-customBg outline-none"
-  >
-    <option value="">Select Time</option>
-    {timeSlots.map((time) => (
-      <option
-        key={time}
-        value={time}
-        disabled={isSlotBooked(formData.date!, time)} // Disable time if already booked
-      >
-        {time}
-      </option>
-    ))}
-  </select>
-</div>
+            <select
+              required
+              value={formData.time}
+              onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+              className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customBg focus:border-customBg outline-none"
+            >
+              <option value="">{translation.timePlaceholder}</option>
+              {timeSlots.map((time) => (
+                <option
+                  key={time}
+                  value={time}
+                  disabled={isSlotBooked(formData.date!, time)} // Disable time if already booked
+                >
+                  {time}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
         <button
           type="submit"
           disabled={loading}
           className="mt-16 hover:shadow-lg  px-6 py-2.5 w-full text-lg bg-none lg:rounded-lg text-customBg border-2 border-customBg transition 300 ease-in-out hover:bg-customBg hover:text-white"
         >
-          {loading ? "Scheduling..." : "Schedule Meeting"}
+          {loading ? translation.schedulingButton : translation.scheduleButton}
         </button>
       </form>
 
@@ -238,69 +243,6 @@ const Form: React.FC = () => {
           </div>
         </div>
       )}
-      {/* CSS for alert box */}
-      <style jsx>{`
-        .spinner {
-          border: 3px solid #f3f3f3;
-          border-top: 3px solid #3498db;
-          border-radius: 50%;
-          width: 24px;
-          height: 24px;
-          animation: spin 2s linear infinite;
-        }
-
-        @keyframes spin {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
-        }
-
-        .alert-container {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background: #e5e0da;
-          z-index: 1000;
-        }
-
-        .alert-box {
-          background-color: #fff;
-          padding: 20px;
-          border-radius: 8px;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-          text-align: center;
-          max-width: 400px;
-          width: 90%;
-          color: #453c35;
-        }
-
-        .alert-text {
-          color: #453c35;
-        }
-
-        .alert-close {
-          background-color: #453c35;
-          color: white;
-          border: none;
-          padding: 8px 16px;
-          border-radius: 4px;
-          cursor: pointer;
-          margin-top: 10px;
-        }
-
-        .alert-close:hover {
-          background-color: #e5e0da;
-          color: black;
-        }
-      `}</style>
     </div>
   );
 };

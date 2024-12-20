@@ -1,0 +1,47 @@
+export const formTrans = {
+    en: {
+      title: "Schedule A Meeting",
+      firstName: "FIRST NAME",
+      lastName: "LAST NAME",
+      email: "EMAIL",
+      phone: "Phone Number",
+      interestPlaceholder: "Your Interest",
+      datePlaceholder: "Select Date",
+      timePlaceholder: "Select Time",
+      scheduleButton: "Schedule Meeting",
+      schedulingButton: "Scheduling...",
+      successMessage: "Your meeting has been scheduled successfully!",
+      errorMessage: "Failed to schedule your meeting. Please try again.",
+    },
+    ar: {
+      title: "حدد موعدًا",
+      firstName: "الاسم الأول",
+      lastName: "الاسم الأخير",
+      email: "البريد الإلكتروني",
+      phone: "رقم الهاتف",
+      interestPlaceholder: "اهتمامك",
+      datePlaceholder: "اختر التاريخ",
+      timePlaceholder: "اختر الوقت",
+      scheduleButton: "تحديد الاجتماع",
+      schedulingButton: "جاري التحديد...",
+      successMessage: "تم تحديد اجتماعك بنجاح!",
+      errorMessage: "فشل في تحديد اجتماعك. يرجى المحاولة مرة أخرى.",
+    },
+    tr: {
+      title: "Bir Toplantı Planlayın",
+      firstName: "Ad",
+      lastName: "Soyad",
+      email: "E-posta",
+      phone: "Telefon Numarası",
+      interestPlaceholder: "İlginiz",
+      datePlaceholder: "Tarih Seç",
+      timePlaceholder: "Saat Seç",
+      scheduleButton: "Toplantıyı Planla",
+      schedulingButton: "Planlanıyor...",
+      successMessage: "Toplantınız başarıyla planlandı!",
+      errorMessage: "Toplantıyı planlamakta hata oluştu. Lütfen tekrar deneyin.",
+    },
+  } as const;
+  
+  export type Language = keyof typeof formTrans;
+  
