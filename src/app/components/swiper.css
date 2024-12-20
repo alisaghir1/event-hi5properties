@@ -3,6 +3,7 @@
   width: 100%;
   margin: 0 auto;
   height: 400px;
+  direction: ltr !important;
 }
 .swiper-slide {
   text-align: center;
