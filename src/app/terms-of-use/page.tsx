@@ -95,6 +95,8 @@ const TermsAndConditions = () => {
             </p>
           </section>
         </section>
+        <div className='bg-white'>
+        </div>
       </div>
     </section>
   );

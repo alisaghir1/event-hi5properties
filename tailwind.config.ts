@@ -11,8 +11,8 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        customText:'#A49A8E',
-        customBg:'#453C35',
+        customText:' #976f33',
+        customBg:'#05052d',
         customText2:'#E5E0DA',
       },
     },

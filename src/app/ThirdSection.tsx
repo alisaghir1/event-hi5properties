@@ -39,9 +39,9 @@ const ThirdSection: React.FC = () => {
   };
 
   return (
-    <section className="flex flex-col items-center pb-20 pt-20 bg-customBg">
+    <section className="flex flex-col items-center pb-20 pt-20 bg-customText2">
       {/* Buttons container */}
-      <div className="flex flex-col lg:flex-row gap-4 mb-8 w-full max-w-[1385px]">
+      <div className="flex flex-col  mx-5 lg:flex-row gap-4 mb-8 w-full px-5 lg:px-64">
         {Object.keys(apartmentImages).map((style) => (
           <button
             key={style}
@@ -50,10 +50,10 @@ const ThirdSection: React.FC = () => {
                 style as "Studio" | "OneBedroom" | "TwoBedroom" | "Townhouse"
               )
             }
-            className={`flex-1 px-5 py-4 text-md lg:rounded-xl transition-all font-mono duration-300 ${
+            className={`flex-1 px-5 py-4 text-md rounded-md  lg:rounded-xl transition-all font-mono duration-300 ${
               selectedStyle === style
-                ? "bg-customText2 text-black"
-                : "bg-none text-white hover:text-black hover:bg-customText2"
+                ? "bg-customBg text-white"
+                : "bg-none border-customBg text-black hover:text-white hover:bg-customBg"
             }`}
           >
             {style.replace(/([A-Z])/g, " $1").trim()} {/* Format button text */}

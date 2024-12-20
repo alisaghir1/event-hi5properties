@@ -1,241 +1,158 @@
 "use client";
 import React, { useState, useRef } from "react";
 import emailjs from "@emailjs/browser";
-import PhoneInput from "react-phone-number-input";
-import "react-phone-number-input/style.css";
 
 interface FormData {
   firstName?: string;
   lastName?: string;
-  phone?: string;
-  country?: string;
   email?: string;
-  bedrooms?: string;
-  buySoon?: string;
-  purpose?: string;
+  phone?: string;
+  date?: string;
+  time?: string;
+  interest?: string; // Add interest field
 }
-
 const Form: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
-    phone: "",
-    country: "",
     email: "",
-    bedrooms: "",
-    buySoon: "",
-    purpose: "",
+    phone: "",
+    date: "",
+    time: "",
+    interest: "",
   });
 
-  const [isChecked, setIsChecked] = useState(false);
+  const [bookedSlots, setBookedSlots] = useState<{ date: string; time: string }[]>([]);
   const [loading, setLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string>("");
   const [showAlert, setShowAlert] = useState<boolean>(false);
 
-  // Handle checkbox state change
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-  };
-
-  // Create a ref for the form element
   const formRef = useRef<HTMLFormElement>(null);
 
-  // Prepare data for emailjs.send()
   const prepareEmailData = (): Record<string, unknown> => ({
     firstName: formData.firstName,
     lastName: formData.lastName,
-    phone: formData.phone,
-    country: formData.country,
     email: formData.email,
-    bedrooms: formData.bedrooms,
-    buySoon: formData.buySoon,
-    purpose: formData.purpose,
-    consent: isChecked,
+    phone: formData.phone,
+    interest: formData.interest,
+    date: formData.date,
+    time: formData.time,
   });
 
-  // Handle form submission and send email via EmailJS
   const sendEmail = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true); // Show loader
+    setLoading(true);
 
     try {
       await emailjs.send(
-        "service_tgdvry2",
+        "service_9dw8n2b",
         "template_n4traqr",
         prepareEmailData(),
         "bz-racFIdw40qpvrn"
       );
 
+      setBookedSlots([...bookedSlots, { date: formData.date!, time: formData.time! }]);
       setFormData({
         firstName: "",
         lastName: "",
-        phone: "",
-        country: "",
         email: "",
-        bedrooms: "",
-        buySoon: "",
-        purpose: "",
+        phone: "",
+        date: "",
+        time: "",
+        interest: "", 
       });
-      setAlertMessage("Thanks for you interest! our team will contact you soon.");
+      setAlertMessage("Your meeting has been scheduled! You will receive a confirmation shortly.");
       setShowAlert(true);
     } catch (error) {
-      setAlertMessage("FAILED! Something went wrong, please try again.");
+      setAlertMessage("Failed to schedule your meeting. Please try again.");
       setShowAlert(true);
       console.error("FAILED...", error);
     } finally {
-      setLoading(false); // Hide loader
+      setLoading(false);
     }
-  };
-
-  const handlePhoneChange = (value: string | undefined) => {
-    setFormData({ ...formData, phone: value || "" });
   };
 
   return (
     <div id="Form" className="bg-customText2">
       <div className="flex justify-center items-center gap-12 w-100 pb-20 pt-20">
-        <h2 className="text-2xl font-bold text-center text-customBg lg:text-3xl custom-font">
-          REGISTER YOUR INTEREST
+        <h2 className="text-2xl font-bold text-center text-customBg lg:text-3xl">
+          Schedule A Meeting
         </h2>
       </div>
 
-      <form
-        ref={formRef}
-        onSubmit={sendEmail}
-        className="max-w-4xl mx-auto pb-20 font-mono"
-      >
+      <form ref={formRef} onSubmit={sendEmail} className="max-w-4xl mx-auto pb-20 font-mono">
         <div className="grid sm:grid-cols-2 gap-6">
+          {/* First Name Field */}
           <div className="relative flex items-center">
             <input
               required
               type="text"
               placeholder="FIRST NAME"
               value={formData.firstName}
-              onChange={(e) =>
-                setFormData({ ...formData, firstName: e.target.value })
-              }
-              className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customText focus:border-customBg outline-none"
+              onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+              className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customBg focus:border-customBg outline-none"
             />
           </div>
 
+          {/* Last Name Field */}
           <div className="relative flex items-center">
             <input
               required
               type="text"
               placeholder="LAST NAME"
               value={formData.lastName}
-              onChange={(e) =>
-                setFormData({ ...formData, lastName: e.target.value })
-              }
-              className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customText focus:border-customBg outline-none"
+              onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+              className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customBg focus:border-customBg outline-none"
             />
           </div>
 
-          <div className="relative flex items-center">
-            <PhoneInput
-              required
-              international
-              defaultCountry="AE"
-              value={formData.phone || undefined}
-              onChange={handlePhoneChange}
-              className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customText focus:border-customBg outline-none"
-            />
-          </div>
-
-          <div className="relative flex items-center">
-            <input
-              required
-              type="text"
-              placeholder="COUNTRY OF RESIDENCE"
-              value={formData.country}
-              onChange={(e) =>
-                setFormData({ ...formData, country: e.target.value })
-              }
-              className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customText focus:border-customBg outline-none"
-            />
-          </div>
-
+          {/* Email Field */}
           <div className="relative flex items-center sm:col-span-2">
             <input
               required
               type="email"
               placeholder="EMAIL"
               value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
-              className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customText focus:border-customBg outline-none"
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customBg focus:border-customBg outline-none"
             />
           </div>
 
+          {/* Phone Field */}
           <div className="relative flex items-center sm:col-span-2">
             <input
               required
-              type="text"
-              placeholder="NUMBER OF BEDROOMS"
-              value={formData.bedrooms}
-              onChange={(e) =>
-                setFormData({ ...formData, bedrooms: e.target.value })
-              }
-              className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customText focus:border-customBg outline-none"
+              type="phone"
+              placeholder="Phone Number"
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customBg focus:border-customBg outline-none"
             />
           </div>
 
+          {/* Interest Field */}
           <div className="relative flex items-center sm:col-span-2">
-            <input
+            <select
               required
-              type="text"
-              placeholder="HOW SOON ARE YOU LOOKING TO BUY"
-              value={formData.buySoon}
-              onChange={(e) =>
-                setFormData({ ...formData, buySoon: e.target.value })
-              }
-              className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customText focus:border-customBg outline-none"
-            />
+              value={formData.interest}
+              onChange={(e) => setFormData({ ...formData, interest: e.target.value })}
+              className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customBg focus:border-customBg outline-none"
+            >
+              <option value="">Your Interest</option>
+              <option value="Apartment">Apartment</option>
+              <option value="Town-House">Town House</option>
+              <option value="Villa">Villa</option>
+              <option value="Penthouse">Penthouse</option>
+            </select>
           </div>
 
-          <div className="relative flex items-center sm:col-span-2">
-            <input
-              required
-              type="text"
-              placeholder="PURPOSE OF BUYING"
-              value={formData.purpose}
-              onChange={(e) =>
-                setFormData({ ...formData, purpose: e.target.value })
-              }
-              className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customText focus:border-customBg outline-none"
-            />
-          </div>
-
-          <div className="sm:col-span-2 flex items-start px-2">
-            <input
-              type="checkbox"
-              id="consent"
-              checked={isChecked}
-              onChange={handleCheckboxChange}
-              className="mr-2 w-8 h-8 bg-customBg"
-              required
-            />
-            <label htmlFor="consent" className="text-lg text-customBg">
-              By accepting and providing my personal information, I am
-              consenting to High Five Properties Privacy Policy, as well as the
-              applicable data protection laws.
-            </label>
-          </div>
         </div>
-
         <button
           type="submit"
-          disabled={loading} // Disable the button while loading
-          className="mt-10 px-6 py-2.5 w-full text-lg bg-customBg text-white transition 300 ease-in-out hover:bg-white hover:text-black rounded-sm"
+          disabled={loading}
+          className="mt-10 px-6 py-2.5 w-full text-lg bg-customBg text-white transition 300 ease-in-out hover:bg-white hover:text-customBg rounded-sm"
         >
-          {loading ? (
-            <div className="flex justify-center items-center">
-              <div className="spinner"></div> {/* Spinner when loading */}
-            </div>
-          ) : (
-            "Submit"
-          )}
+          {loading ? "Scheduling..." : "Schedule Meeting"}
         </button>
       </form>
 
@@ -251,6 +168,7 @@ const Form: React.FC = () => {
         </div>
       )}
 
+      {/* CSS for alert box */}
       <style jsx>{`
         .spinner {
           border: 3px solid #f3f3f3;
@@ -295,7 +213,7 @@ const Form: React.FC = () => {
         }
 
         .alert-text {
-          color: #453c35; /* Same color as the close button */
+          color: #453c35;
         }
 
         .alert-close {

@@ -17,8 +17,8 @@ import cr4 from "../assets/carousel4.png";
 import cr5 from "../assets/carousel5.jpeg";
 import cr6 from "../assets/carousel6.jpeg";
 
-// import required modules
-import { FreeMode, Pagination } from "swiper/modules";
+// Import required modules
+import { FreeMode, Pagination, Autoplay } from "swiper/modules";
 
 export default function App() {
   return (
@@ -30,7 +30,11 @@ export default function App() {
         pagination={{
           clickable: true,
         }}
-        modules={[FreeMode, Pagination]}
+        autoplay={{
+          delay: 3000, // Delay between slides (in milliseconds)
+          disableOnInteraction: false, // Continue autoplay after user interaction
+        }}
+        modules={[FreeMode, Pagination, Autoplay]}
         className="mySwiper"
         breakpoints={{
           320: {

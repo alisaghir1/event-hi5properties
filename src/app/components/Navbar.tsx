@@ -14,12 +14,11 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
           <div className="flex-shrink-0 flex px-2 py-3 items-center space-x-8">
-            <a
+            <Link
               className="text-white font-mono bg-customText hover:bg-white hover:text-black inline-flex items-center justify-center px-3 py-2 border border-transparent font-semibold  text-md md:text-lg rounded-md shadow-smtransition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg "
-              href="tel:+971545620057"
-            >
-              Call Us Now
-            </a>
+              href='tel:+9710545620057'
+            >Call us now
+            </Link>
           </div>
         </div>
       </div>
