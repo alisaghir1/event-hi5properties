@@ -221,7 +221,7 @@ const Form: React.FC = () => {
         <button
           type="submit"
           disabled={loading}
-          className="mt-16  px-6 py-2.5 w-full text-lg bg-none lg:rounded-lg text-customBg border-2 border-customBg transition 300 ease-in-out hover:bg-customBg hover:text-white"
+          className="mt-16 hover:shadow-lg  px-6 py-2.5 w-full text-lg bg-none lg:rounded-lg text-customBg border-2 border-customBg transition 300 ease-in-out hover:bg-customBg hover:text-white"
         >
           {loading ? "Scheduling..." : "Schedule Meeting"}
         </button>
