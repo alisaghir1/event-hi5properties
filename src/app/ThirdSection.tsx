@@ -18,19 +18,24 @@ import townhouse2 from "./assets/Town House/th-2.jpg";
 import townhouse3 from "./assets/Town House/th-3.jpg";
 import townhouse4 from "./assets/Town House/th-4.jpg";
 import Loader from "./components/CustomLoader";
+import { useAppContext } from "./context";
+import { thirdSectionTrans, Language } from "./translations/thirdSectionTrans";
 
 const apartmentImages = {
-  Studio: [studio1, studio2, studio3, studio4],
-  OneBedroom: [bedroom11, bedroom12, bedroom13, bedroom14],
-  TwoBedroom: [bedroom21, bedroom22, bedroom23, bedroom24],
+  Apartment: [studio1, studio2, studio3, studio4],
+  Villa: [bedroom11, bedroom12, bedroom13, bedroom14],
+  PentHouse: [bedroom21, bedroom22, bedroom23, bedroom24],
   Townhouse: [townhouse1, townhouse2, townhouse3, townhouse4],
 };
 
 const ThirdSection: React.FC = () => {
-  const [selectedStyle, setSelectedStyle] = useState<"Studio" | "OneBedroom" | "TwoBedroom" | "Townhouse">("Studio");
+  const [selectedStyle, setSelectedStyle] = useState<"Apartment" | "Villa" | "PentHouse" | "Townhouse">("Apartment");
   const [isLoading, setIsLoading] = useState(true); // Track loading state
+  const [language] = useAppContext(); // Get the current language from context
 
-  const handleButtonClick = (style: "Studio" | "OneBedroom" | "TwoBedroom" | "Townhouse") => {
+  const translation = thirdSectionTrans[language as Language];
+
+  const handleButtonClick = (style: "Apartment" | "Villa" | "PentHouse" | "Townhouse") => {
     setSelectedStyle(style);
     setIsLoading(true); // Reset loading when switching style
   };
@@ -46,14 +51,14 @@ const ThirdSection: React.FC = () => {
         {Object.keys(apartmentImages).map((style) => (
           <button
             key={style}
-            onClick={() => handleButtonClick(style as "Studio" | "OneBedroom" | "TwoBedroom" | "Townhouse")}
+            onClick={() => handleButtonClick(style as "Apartment" | "Villa" | "PentHouse" | "Townhouse")}
             className={`flex-1 px-5 py-4 text-md rounded-md lg:rounded-xl transition-all font-mono duration-300 ${
               selectedStyle === style
                 ? "bg-customBg text-white"
                 : "bg-none border-customBg text-black hover:text-white hover:bg-customBg"
             }`}
           >
-            {style.replace(/([A-Z])/g, " $1").trim()} {/* Format button text */}
+            {translation[style.toLowerCase() as keyof typeof translation]} {/* Use translation for button text */}
           </button>
         ))}
       </div>
