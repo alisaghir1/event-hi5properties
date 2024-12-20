@@ -150,7 +150,7 @@ const Form: React.FC = () => {
         <button
           type="submit"
           disabled={loading}
-          className="mt-10 px-6 py-2.5 w-full text-lg bg-customBg text-white transition 300 ease-in-out hover:bg-white hover:text-customBg rounded-sm"
+          className="mt-10 px-6 py-2.5 w-full text-lg bg-none lg:rounded-lg text-customBg border-2 border-customBg transition 300 ease-in-out hover:bg-customBg hover:text-white"
         >
           {loading ? "Scheduling..." : "Schedule Meeting"}
         </button>
