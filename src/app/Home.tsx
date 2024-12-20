@@ -26,16 +26,11 @@ const Home: React.FC = () => {
       {/* Content */}
       <div className="relative z-10 flex flex-col justify-center items-center h-full text-center mx-2">
         <h1 className="text-3xl md:text-4xl lg:text-5xl leading-tight mb-4 custom-font">
-          {t.heading.split(" ").map((word, i) =>
-            word === " Istanbul" || word === " إسطنبول" || word === "Стамбул" ? (
-              <span key={i} className="text-customText">
-                {word}
-              </span>
-            ) : (
-              <span key={i}>{word} </span>
-            )
-          )}
+          {t.heading}
         </h1>
+        <h2 className="text-2xl md:text-3xl lg:text-4xl leading-tight mb-4 custom-font text-customText">
+        {t.subHeading}
+        </h2>
         <div className="text-lg text-gray-300 mb-8 font-mono">
           <Typewriter
             options={{
