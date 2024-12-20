@@ -17,7 +17,6 @@ import townhouse1 from "./assets/Town House/th-1.jpg";
 import townhouse2 from "./assets/Town House/th-2.jpg";
 import townhouse3 from "./assets/Town House/th-3.jpg";
 import townhouse4 from "./assets/Town House/th-4.jpg";
-import Loader from "./components/CustomLoader";
 import { useAppContext } from "./context";
 import { thirdSectionTrans, Language } from "./translations/thirdSectionTrans";
 
@@ -30,19 +29,15 @@ const apartmentImages = {
 
 const ThirdSection: React.FC = () => {
   const [selectedStyle, setSelectedStyle] = useState<"Apartment" | "Villa" | "PentHouse" | "Townhouse">("Apartment");
-  const [isLoading, setIsLoading] = useState(true); // Track loading state
   const [language] = useAppContext(); // Get the current language from context
 
   const translation = thirdSectionTrans[language as Language];
 
   const handleButtonClick = (style: "Apartment" | "Villa" | "PentHouse" | "Townhouse") => {
     setSelectedStyle(style);
-    setIsLoading(true); // Reset loading when switching style
   };
 
-  const handleImageLoad = () => {
-    setIsLoading(false); // Set loading state to false once all images are loaded
-  };
+
 
   return (
     <section className="flex flex-col items-center pb-20 pt-20 bg-customText2">
@@ -63,13 +58,6 @@ const ThirdSection: React.FC = () => {
         ))}
       </div>
 
-      {/* Loader */}
-      {isLoading && (
-        <div className="flex justify-center items-center w-full h-96">
-          <Loader /> {/* Custom loader component */}
-        </div>
-      )}
-
       {/* Images container */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5 w-full px-5 sm:px-10 lg:px-64 pb-20">
         {apartmentImages[selectedStyle].map((imageSrc, index) => (
@@ -78,7 +66,6 @@ const ThirdSection: React.FC = () => {
               alt={`${selectedStyle} pic ${index + 1}`}
               className="hover:opacity-75 w-full h-96 transition-opacity duration-300"
               src={imageSrc}
-              onLoad={handleImageLoad} // Trigger when each image is loaded
               placeholder="blur" // For smooth loading effect
             />
           </div>
