@@ -15,7 +15,7 @@ interface FormData {
 
 const availableDates = ["27/12/2024", "28/12/2024", "29/12/2024"];
 const startTime = "09:30";
-const endTime = "23:00";
+const endTime = "22:30";
 
 const generateTimeSlots = (start: string, end: string): string[] => {
   const times: string[] = [];
@@ -221,7 +221,7 @@ const Form: React.FC = () => {
         <button
           type="submit"
           disabled={loading}
-          className="mt-10 px-6 py-2.5 w-full text-lg bg-none lg:rounded-lg text-customBg border-2 border-customBg transition 300 ease-in-out hover:bg-customBg hover:text-white"
+          className="mt-16  px-6 py-2.5 w-full text-lg bg-none lg:rounded-lg text-customBg border-2 border-customBg transition 300 ease-in-out hover:bg-customBg hover:text-white"
         >
           {loading ? "Scheduling..." : "Schedule Meeting"}
         </button>

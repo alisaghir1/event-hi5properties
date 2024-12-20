@@ -24,7 +24,6 @@ export async function createReservation(input: CreateReservationInput): Promise<
       { time, date } // Pass the reservation data
     );
 
-    console.log("Reservation created successfully:", response);
     return response.$id; // Return the created document's ID
   } catch (error) {
     console.error("Error creating reservation:", error);
@@ -38,7 +37,6 @@ export async function getReservations(): Promise<Reservation[]> {
       "6763f543000ea7b568f0", // Database ID
       "6763f578000ee46e6506"  // Collection ID
     );
-    console.log(response.documents); // Log the fetched documents for debugging
 
     // Map documents to the Reservation interface
     const reservations: Reservation[] = response.documents.map((doc) => ({

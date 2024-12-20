@@ -18,8 +18,6 @@ import townhouse2 from "./assets/Town House/th-2.jpg";
 import townhouse3 from "./assets/Town House/th-3.jpg";
 import townhouse4 from "./assets/Town House/th-4.jpg";
 
-
-
 const apartmentImages = {
   Studio: [studio1, studio2, studio3, studio4],
   OneBedroom: [bedroom11, bedroom12, bedroom13, bedroom14],
@@ -28,29 +26,30 @@ const apartmentImages = {
 };
 
 const ThirdSection: React.FC = () => {
-  const [selectedStyle, setSelectedStyle] = useState<
-    "Studio" | "OneBedroom" | "TwoBedroom" | "Townhouse"
-  >("Studio");
+  const [selectedStyle, setSelectedStyle] = useState<"Studio" | "OneBedroom" | "TwoBedroom" | "Townhouse">("Studio");
+  const [isLoading, setIsLoading] = useState<boolean>(true); // State to track loading status
 
-  const handleButtonClick = (
-    style: "Studio" | "OneBedroom" | "TwoBedroom" | "Townhouse"
-  ) => {
+  const handleButtonClick = (style: "Studio" | "OneBedroom" | "TwoBedroom" | "Townhouse") => {
+    setIsLoading(true); // Set loading state to true when changing images
     setSelectedStyle(style);
+  };
+
+  // Function to handle image load event
+  const handleImageLoad = () => {
+    setIsLoading(false); // Set loading state to false once images are loaded
   };
 
   return (
     <section className="flex flex-col items-center pb-20 pt-20 bg-customText2">
       {/* Buttons container */}
-      <div className="flex flex-col  mx-5 lg:flex-row gap-4 mb-8 w-full px-5 lg:px-64">
+      <div className="flex flex-col mx-5 lg:flex-row gap-4 mb-8 w-full px-5 lg:px-64">
         {Object.keys(apartmentImages).map((style) => (
           <button
             key={style}
             onClick={() =>
-              handleButtonClick(
-                style as "Studio" | "OneBedroom" | "TwoBedroom" | "Townhouse"
-              )
+              handleButtonClick(style as "Studio" | "OneBedroom" | "TwoBedroom" | "Townhouse")
             }
-            className={`flex-1 px-5 py-4 text-md rounded-md  lg:rounded-xl transition-all font-mono duration-300 ${
+            className={`flex-1 px-5 py-4 text-md rounded-md lg:rounded-xl transition-all font-mono duration-300 ${
               selectedStyle === style
                 ? "bg-customBg text-white"
                 : "bg-none border-customBg text-black hover:text-white hover:bg-customBg"
@@ -61,18 +60,27 @@ const ThirdSection: React.FC = () => {
         ))}
       </div>
 
+      {/* Loader */}
+      {isLoading && (
+        <div className="flex justify-center items-center w-full h-96">
+          <div className="loader">Loading...</div> {/* You can style or replace this with a spinner */}
+        </div>
+      )}
+
       {/* Images container */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5 w-full px-5 sm:px-10 lg:px-64 pb-20">
-        {apartmentImages[selectedStyle].map((imageSrc, index) => (
-          <div key={index} className="flex justify-center w-full">
-            <Image
-              alt={`${selectedStyle} pic ${index + 1}`}
-              className="hover:opacity-75 w-full h-96 transition-opacity duration-300"
-              src={imageSrc}
-              placeholder="blur" // For smooth loading effect
-            />
-          </div>
-        ))}
+        {!isLoading &&
+          apartmentImages[selectedStyle].map((imageSrc, index) => (
+            <div key={index} className="flex justify-center w-full">
+              <Image
+                alt={`${selectedStyle} pic ${index + 1}`}
+                className="hover:opacity-75 w-full h-96 transition-opacity duration-300"
+                src={imageSrc}
+                onLoadingComplete={handleImageLoad} // Trigger when image is fully loaded
+                placeholder="blur" // For smooth loading effect
+              />
+            </div>
+          ))}
       </div>
     </section>
   );
