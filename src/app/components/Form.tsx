@@ -10,6 +10,7 @@ interface FormData {
   lastName?: string;
   email?: string;
   phone?: string;
+  prefered?:string;
   date?: string;
   time?: string;
   interest?: string;
@@ -43,6 +44,7 @@ const Form: React.FC = () => {
     lastName: "",
     email: "",
     phone: "",
+    prefered:"",
     date: "",
     time: "",
     interest: "",
@@ -96,6 +98,7 @@ const Form: React.FC = () => {
         lastName: "",
         email: "",
         phone: "",
+        prefered:"",
         date: "",
         time: "",
         interest: "",
@@ -165,6 +168,18 @@ const Form: React.FC = () => {
               placeholder={translation.phone}
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customBg focus:border-customBg outline-none"
+            />
+          </div>
+
+          {/* Prefered language Field */}
+          <div className="relative flex items-center sm:col-span-2">
+            <input
+              required
+              type="prefered"
+              placeholder={translation.prefered}
+              value={formData.prefered}
+              onChange={(e) => setFormData({ ...formData, prefered: e.target.value })}
               className="px-2 py-6 bg-transparent text-black w-full text-lg border-b-2 border-customBg focus:border-customBg outline-none"
             />
           </div>
