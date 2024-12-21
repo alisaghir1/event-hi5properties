@@ -243,6 +243,69 @@ const Form: React.FC = () => {
           </div>
         </div>
       )}
+        <style jsx>{`
+        .spinner {
+          border: 3px solid #f3f3f3;
+          border-top: 3px solid #3498db;
+          border-radius: 50%;
+          width: 24px;
+          height: 24px;
+          animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+
+        .alert-container {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: #e5e0da;
+          z-index: 1000;
+        }
+
+        .alert-box {
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          text-align: center;
+          max-width: 400px;
+          width: 90%;
+          color: #453c35;
+        }
+
+        .alert-text {
+          color: #05052; /* Same color as the close button */
+        }
+
+        .alert-close {
+          background-color: #05052d;
+          color: white;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 4px;
+          cursor: pointer;
+          margin-top: 10px;
+        }
+
+        .alert-close:hover {
+          background-color: #976f33;
+          color: white;
+          transition: 4ms ease-in-out
+        }
+      `}</style>
     </div>
   );
 };
