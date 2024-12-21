@@ -35,7 +35,7 @@ const Navbar: React.FC = () => {
           {/* Call Us and Language Selector */}
           <div className="flex-shrink-0 flex flex-col-reverse items-center gap-2">
             <Link
-              className="text-white font-mono bg-customText hover:bg-white hover:text-black inline-flex items-center justify-center px-3 py-2 border border-transparent font-semibold text-md md:text-lg rounded-md shadow-sm transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
+              className="text-white font-mono bg-customText hover:bg-customBg hover:text-white inline-flex items-center justify-center px-3 py-2 border border-transparent font-semibold text-md md:text-lg rounded-md shadow-sm transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
               href="tel:+9710545620057"
             >
               {t.callUsNow}

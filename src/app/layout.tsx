@@ -16,7 +16,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Dubai Luxury Properties | Join us in one of the best event's in Istanbul",
+  title:
+    "Dubai Luxury Properties | Join us in one of the best event's in Istanbul",
   description:
     "Experience the luxury of Dubai real estate at the Hi5 Properties Showcase in Istanbul. Explore exclusive Dubai projects, investment opportunities, and high-end properties that define the future of living. Join us for an immersive event where innovation meets luxury in the heart of Istanbul.",
   icons: {
@@ -32,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-      {/* <Script
+        {/* <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-WF659TH2JG"
           async
@@ -49,10 +50,10 @@ export default function RootLayout({
           `}
           </Script> */}
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-<AppWrapper>
-        {children}
-      </AppWrapper>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <AppWrapper>{children}</AppWrapper>
       </body>
     </html>
   );

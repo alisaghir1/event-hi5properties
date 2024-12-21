@@ -16,14 +16,14 @@ interface FormData {
 }
 
 const availableDates = ["27/12/2024", "28/12/2024", "29/12/2024"];
-const startTime = "09:30";
-const endTime = "22:30";
+const startTime = "12:00";
+const endTime = "22:45";
 
 const generateTimeSlots = (start: string, end: string): string[] => {
   const times: string[] = [];
   let current = new Date(`1970-01-01T${start}:00`);
   const endTime = new Date(`1970-01-01T${end}:00`);
-  const interval = 30; // 30 minutes
+  const interval = 15; // 15 minutes
 
   while (current <= endTime) {
     times.push(current.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: true }));

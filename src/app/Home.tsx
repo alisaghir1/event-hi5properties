@@ -43,7 +43,7 @@ const Home: React.FC = () => {
         </div>
         <a
           href="#Form"
-          className="bg-customText font-mono text-white hover:bg-white hover:text-black py-2 px-6 rounded-md text-md md:text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
+          className="bg-customText font-mono text-white hover:bg-customBg hover:text-white py-2 px-6 rounded-md text-md md:text-lg font-semibold transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
         >
           {t.bookInvitation}
         </a>
