@@ -17,8 +17,8 @@ interface FormData {
 }
 
 const availableDates = ["27/12/2024", "28/12/2024", "29/12/2024"];
-const startTime = "12:00";
-const endTime = "22:45";
+const startTime = "11:00";
+const endTime = "19:45";
 
 const generateTimeSlots = (start: string, end: string): string[] => {
   const times: string[] = [];
