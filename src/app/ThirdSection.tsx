@@ -5,10 +5,10 @@ import studio1 from "./assets/studio/s1.jpg";
 import studio2 from "./assets/studio/s2.jpg";
 import studio3 from "./assets/studio/s3.jpg";
 import studio4 from "./assets/studio/s4.jpg";
-import bedroom11 from "./assets/1 bedroom/bd-1-1.jpg";
-import bedroom12 from "./assets/1 bedroom/bd-1-2.jpg";
-import bedroom13 from "./assets/1 bedroom/bd-1-3.jpg";
-import bedroom14 from "./assets/1 bedroom/bd-1-4.jpg";
+import bedroom11 from "./assets/villa exterior/villaEx1.jpeg";
+import bedroom12 from "./assets/villa exterior/villaEx3.jpeg";
+import bedroom13 from "./assets/villa exterior/villaEx4.jpeg";
+import bedroom14 from "./assets/villa exterior/villaEx5.jpeg";
 import bedroom21 from "./assets/2 bedrooms/bd2-1.jpg";
 import bedroom22 from "./assets/2 bedrooms/bd2-2.jpg";
 import bedroom23 from "./assets/2 bedrooms/bd2-3.jpg";
@@ -64,7 +64,7 @@ const ThirdSection: React.FC = () => {
           <div key={index} className="flex justify-center w-full">
             <Image
               alt={`${selectedStyle} pic ${index + 1}`}
-              className="hover:opacity-75 w-full h-96 transition-opacity duration-300"
+              className="hover:opacity-75 w-full h-96 transition-opacity duration-300 object-cover"
               src={imageSrc}
               placeholder="blur" // For smooth loading effect
             />
